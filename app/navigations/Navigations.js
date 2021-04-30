@@ -31,7 +31,7 @@ export default function Navigation(){
                 <Tab.Screen 
                 name= 'newsmusic' 
                 component={NewsMusicStack}
-                options={{title:'Musica Nuevaaaaaa♪'}}
+                options={{title:'Musica Nueva♪'}}
                 />
                 <Tab.Screen 
                 name= 'playlist' 
