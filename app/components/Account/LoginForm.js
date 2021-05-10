@@ -5,15 +5,14 @@ import { validateEmail } from '../../utils/validation'
 import firebase from 'firebase'
 import {useNavigation} from '@react-navigation/native'
 
-export default function RegisterForm(props){
+export default function LoginForm(props){
     const {toastRef} = props
     const [showPassword, setShowPassword] = useState(false)
-    const [showRepeatPassword, setShowRepeatPassword] = useState(false)
     const [formData, setFormData] = useState(defaultFormValues())
     const navigation = useNavigation()
 
     const onSubmit = () => { 
-        if(formData.email.length===0||formData.password.length===0||formData.repeatPassword.length===0){
+        if(formData.email.length===0||formData.password.length===0){
             toastRef.current.show({
                 type: 'error',
                 position: 'top',
@@ -41,26 +40,12 @@ export default function RegisterForm(props){
                 onHide: () => {},
                 onPress: () => {}
               });
-        } else if (formData.password !== formData.repeatPassword){
-            toastRef.current.show({
-                type: 'error',
-                position: 'top',
-                text1: 'Password',
-                text2: 'Las contraseñas deben ser similares👋',
-                visibilityTime: 3000,
-                autoHide: true,
-                topOffset: 30,
-                bottomOffset: 40,
-                onShow: () => {},
-                onHide: () => {},
-                onPress: () => {}
-              });
         } else if (formData.password.length < 6){
             toastRef.current.show({
                 type: 'error',
                 position: 'top',
                 text1: 'Password',
-                text2: 'La contraseña debe tener 6 digitos👋',
+                text2: 'Las contraseñas deben contar con 6 digitos👋',
                 visibilityTime: 3000,
                 autoHide: true,
                 topOffset: 30,
@@ -69,11 +54,11 @@ export default function RegisterForm(props){
                 onHide: () => {},
                 onPress: () => {}
               });
-        }else {
+        }  else {
             console.log('Todo correcto')
             firebase
             .auth()
-            .createUserWithEmailAndPassword(formData.email, formData.password)
+            .signInWithEmailAndPassword(formData.email, formData.password)
             .then((response)=>{
                 console.log(response)
                 navigation.navigate('home')
@@ -84,7 +69,7 @@ export default function RegisterForm(props){
                     type: 'error',
                     position: 'top',
                     text1: 'Empty',
-                    text2: 'Correo ya registrado anteriormente',
+                    text2: 'El correo o contraseña incorrecta',
                     visibilityTime: 3000,
                     autoHide: true,
                     topOffset: 30,
@@ -125,21 +110,8 @@ export default function RegisterForm(props){
                     onPress={()=> setShowPassword(!showPassword)} 
             />}    
             />
-            <Input
-                placeholder='Repetir contraseña'
-                containerStyle={styles.inputForm}
-                password={true}
-                secureTextEntry={showRepeatPassword ? false : true}
-                onChange={(e)=>onChange(e, 'repeatPassword')}
-                rightIcon={<Icon 
-                    type='material-community' 
-                    name={showRepeatPassword ? 'eye-off-outline' : 'eye-outline'}
-                    iconStyle={styles.iconRight}
-                    onPress={()=> setShowRepeatPassword(!showRepeatPassword)}  
-                />}
-            />
             <Button
-                title='Unete'
+                title='Inicia sesion'
                 containerStyle={styles.btnContainerRegister}
                 buttonStyle={styles.btnRegister}
                 onPress={onSubmit}

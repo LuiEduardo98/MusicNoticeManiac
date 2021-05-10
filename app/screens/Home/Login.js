@@ -1,22 +1,30 @@
-import React from 'react'
+import React, {useRef} from 'react'
 import { StyleSheet, View, ScrollView, Text, Image } from 'react-native'
 import { Divider } from 'react-native-elements'
-import { NavigationContainer, useNavigation } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
+import Toast from 'react-native-toast-message';
+import LoginForm from '../../components/Account/LoginForm'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 export default function Login(){
+    const toastRef = useRef()
     return(
-    <ScrollView>
+    <KeyboardAwareScrollView>
         <Image
             source={require('../../../assets/img/music-note-1275650_1920.png')}
             resizeMode='contain'
             style={styles.logo}
             />
-            <View style={StyleSheet.viewContainer}>
+        <View style = {styles.viewForms}>
+            <LoginForm toastRef={toastRef}/>
+        </View>
+        <View style={StyleSheet.viewContainer}>
                 <Text>Login Form</Text>
                 <CreateHome/>
-            </View>
-            <Divider style= {styles.divider}/>
-    </ScrollView>
+        </View>
+        <Divider style= {styles.divider}/>
+        <Toast ref={toastRef}/>
+    </KeyboardAwareScrollView>
     )
 }
 
@@ -51,11 +59,15 @@ const styles = StyleSheet.create({
         marginRight: 10
     },
     linkRegister:{
-        color: '#00a680',
+        color: '#0033FF',
         fontWeight: 'bold'
     },
     divider:{
-        backgroundColor: '#00a680',
+        backgroundColor: '#FF0000',
         margin: 40
+    },
+    viewForms:{
+        marginRight: 40,
+        marginLeft: 40,
     }
 })
