@@ -13,39 +13,38 @@ export default function UserLogged(){
             const user = await firebase.auth().currentUser
             setUserInfo(user)
         })()
-    },[])
+    }, [])
     return(
-            <View style={styles.viewUserInfo}>
-                {userInfo&&<InfoUser userInfo={userInfo} toastRef={toastRef}/>}
-                <Text>HomeOptions...</Text>
-                <Button 
-                    title='Únete'
-                    buttonStyle={styles.btnCloseSession}
-                    titleStyle={styles.btnCloseSessionText}
-                    onPress={()=>firebase.auth().signOut()}
-                />
+        <View>
+            <View style={styles.viewcontainer}>
+                {userInfo && <InfoUser userInfo={userInfo} toastRef={toastRef}/>}
                 <Toast ref={toastRef}/>
             </View>
+            <View style={styles.viewcontainer}>
+                <Button
+                    containerStyle={styles.btnContainer}
+                    buttonStyle={styles.btnRegister}
+                    title='Cerrar sesión' onPress={()=>firebase.auth().signOut()}/>
+            </View>
+        </View>
     )
 }
 
 const styles = StyleSheet.create({
-    btnCloseSessionText:{
-        color:'#00a680'
-    },
-    btnCloseSession:{
-        marginTop: 30,
-        borderRadius: 0,
-        backgroundColor: '#31B648',
-        borderTopWidth: 1,
-        borderTopColor: '#e3e3e3',
-        borderBottomWidth: 1,
-        borderBottomColor: '#e3e3e3',
-        paddingTop: 10,
-        paddingBottom:10,
-    },
     viewUserInfo:{
         alignItems: 'center',
         backgroundColor: '#f2f2f2'
+    },
+    btnContainerRegister:{
+        marginTop: 20,
+        paddingTop:30,
+        width: '95%',
+    },
+    btnRegister:{
+        backgroundColor: '#3333FF'
+    },
+    viewcontainer:{
+        alignItems: 'center',
+        marginBottom: 50
     }
 })
