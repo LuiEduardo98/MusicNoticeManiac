@@ -45,7 +45,7 @@ export default function LoginForm(props){
                 type: 'error',
                 position: 'top',
                 text1: 'Password',
-                text2: 'Las contraseñas deben contar con 6 digitos👋',
+                text2: 'Las contraseñas deben contar como minimo 6 digitos👋',
                 visibilityTime: 3000,
                 autoHide: true,
                 topOffset: 30,
@@ -55,7 +55,7 @@ export default function LoginForm(props){
                 onPress: () => {}
               });
         }  else {
-            console.log('Todo correcto')
+            console.log('Todo en orden')
             firebase
             .auth()
             .signInWithEmailAndPassword(formData.email, formData.password)
