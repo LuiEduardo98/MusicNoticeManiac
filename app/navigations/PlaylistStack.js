@@ -1,6 +1,6 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
-import Playlist from '../screens/Playlist'
+import Playlist from '../screens/Playlist/Playlist'
 
 const Stack = createStackNavigator()
 

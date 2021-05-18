@@ -1,16 +1,18 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {StyleSheet, View, Text} from 'react-native'
 import {Avatar} from 'react-native-elements'
 import firebase from 'firebase'
 import * as Permissions from 'expo-permissions'
 import * as ImagePicker  from 'expo-image-picker'
 import AccountOptions from './AccountOptions'
+import Loading from '../Loading'
 
 
 
 export default function InfoUser(props){
-    const{userInfo:{uid, photoURL, displayName, email}, toastRef} = props
-    
+    const{userInfo:{uid, photoURL, displayName, email}, toastRef, setReloadUserInfo, userInfo} = props
+    const [isLoading, setIsLoading] = useState(false)
+
     const changeAvatar= async()=>{
         const resultPermissions = await Permissions.askAsync(Permissions.CAMERA_ROLL)
         const resultPermissionsCamera = resultPermissions.permissions.mediaLibrary.status
@@ -38,9 +40,12 @@ export default function InfoUser(props){
                     visibilityTime: 3000
                 })
             } else{
+                setIsLoading(true)
                 uploadImage(result.uri).then(()=>{
                     console.log('Imagen en firebase')
-                    updatePhotoUrl()
+                    updatePhotoUrl() 
+                    setReloadUserInfo(true)
+                    setIsLoading(false)
                 }).catch(()=>{
                     toastRef.current.show({
                         type: 'error',
@@ -78,6 +83,7 @@ export default function InfoUser(props){
             }
             await firebase.auth().currentUser.updateProfile(update)
             console.log('Imagen Actualizada')
+            setReloadUserInfo(true)
         })
     }
 
@@ -99,7 +105,8 @@ export default function InfoUser(props){
                     <Text>{email ? email : 'Sin email definido'}</Text>
                 </View>
             </View>
-            <AccountOptions/>
+            <AccountOptions userInfo={userInfo} setReloadUserInfo={setReloadUserInfo}/>
+            <Loading isVisible={isLoading} text={'Espere un momento'} />
         </View>
     )
 }
