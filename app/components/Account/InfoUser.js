@@ -32,6 +32,7 @@ export default function InfoUser(props){
             })
             console.log(result)
             if (result.cancelled){
+                setIsLoading(false)
                 toastRef.current.show({
                     type: 'info',
                     position: 'top',
@@ -47,6 +48,7 @@ export default function InfoUser(props){
                     setReloadUserInfo(true)
                     setIsLoading(false)
                 }).catch(()=>{
+                    setIsLoading(false)
                     toastRef.current.show({
                         type: 'error',
                         position: 'top',
